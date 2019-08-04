@@ -1,0 +1,23 @@
+.container{
+    /* background-image: url("TechTalentSouthLogo.jpg"); */
+    background-size: cover;
+    background-position: center;
+    border: 1px solid black;
+    height: 500px;
+    width: 500px;
+}
+h1,p{
+    text-align: center;
+}
+button{
+    margin-top: 100px;
+    margin-left: 200px;
+    margin-right: 200px;
+    width: 100px;
+}
+img{
+    height: 250px;
+    width: 250px;
+    margin-left: 125px;
+    margin-right: 125px;
+}
