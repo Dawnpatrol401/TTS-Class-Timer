@@ -1,43 +1,47 @@
-//Set Variables
-const button = document.querySelector('button');
+let countdown;
+const timerDisplay = document.querySelector('.display__time-left');
+const endTime = document.querySelector('.display__end-time');
+const buttons = document.querySelectorAll('[data-time');
 
-// Set the functions
-function tenMinBreak(){
-        alert('take a ten minute break');
-}
-function labTime(){
-        alert('Is it time for lab yet?');
-}
-function lunchTime(){
-        alert("It's time for lunch!");
-}
-function daysOver(){
-        alert('Go Home!');
+function timer(seconds){
+        //first clear any existing timers so that you cant have a bunch running at once.
+        clearInterval(countdown);
+        
+        const now = Date.now();//gets current timestamp in milliseconds
+        const then = now + seconds *1000; //adds the number of milliseconds that you want to count
+        displayTimeLeft(seconds);
+        displayEndTime(then);
+countdown = setInterval(()=>{
+                const secondsLeft = Math.round((then - Date.now()) / 1000);
+                //this will stop the countdown at zero.
+                if(secondsLeft < 0){
+                        clearInterval(countdown);
+                        return;
+                }
+                //display the time that is left
+                displayTimeLeft(secondsLeft);
+
+        },1000);
 }
 
+function displayTimeLeft(seconds){
+        const minutes = Math.floor(seconds / 60);
+        const remainderSeconds = seconds % 60;
+        const display = `${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+        document.title = display;//this displays the timer in the browser tab.
+        timerDisplay.textContent = display;
+}
 
-// Add Event Listeners
-button.addEventListener('click', ()=>{
-        // set the timer for ten minute breaks
-        setInterval(tenMinBreak,3.6e+6);
-        console.log('ten minute timer set');
-        // set lab timer for 3 hours from start of class
-        setInterval(labTime,1.08e+7);
-        console.log('lab time timer set');
-        // set lunch timer 4 hours from start
-        setInterval(lunchTime,1.44e+7);
-        console.log('lunch timer set');
-        // set end of day timer
-        // Write an if statement that sets it for 8 hours on friday and 9 hours every other day
-        let d = new Date();
-        let day = d.getDay();
-        if(day === 5){
-                setInterval(daysOver,2.88e+7);
-                alert('HAVE A GREAT WEEKEND!!');
-                console.log('today is friday');
-        }else{
-                setInterval(daysOver,3.24e+7);
-                console.log('today is NOT friday');
-        }
-});
+function displayEndTime(timestamp){
+        const end = new Date(timestamp);
+        const hour = end.getHours();
+        const minutes = end.getMinutes();
+        
+}
 
+function startTimer(){
+        const seconds = parseInt(this.dataset.time);
+        timer(seconds);
+}
+
+buttons.forEach(button => button.addEventListener('click', startTimer));
